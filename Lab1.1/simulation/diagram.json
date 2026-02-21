@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "author": "Lab1 Project",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 250, "left": 360, "attrs": {} },
+    { "type": "wokwi-breadboard", "id": "bb1", "top": 0, "left": 360, "attrs": {} },
+
+    { "type": "wokwi-led", "id": "led1", "top": 60, "left": 680, "attrs": { "color": "red" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": 60, "left": 740, "attrs": { "value": "220" } },
+
+    { "type": "gnd", "id": "gnd1", "top": 240, "left": 740, "attrs": {} },
+    { "type": "wokwi-serial-terminal", "id": "serial", "top": 300, "left": 20, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:13", "led1:A", "green" ],
+    [ "led1:C", "r1:1", "green" ],
+    [ "r1:2", "uno:GND.1", "black" ],
+
+    [ "uno:1", "serial:RX", "purple" ],
+    [ "serial:TX", "uno:0", "purple" ]
+  ]
+}
