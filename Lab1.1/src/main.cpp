@@ -1,18 +1,22 @@
 #include <Arduino.h>
-
-// put function declarations here:
-int myFunction(int, int);
+#include "serial_stdio.h"
+#include "utils.h"
+#include "commands.h"
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
+  Serial.begin(9600);
+  delay(50);
+  serial_stdio_setup();
+  print_instructions();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  char line[64];
+  if (!read_line_stdio_echo(line, sizeof(line))) return;
+  trim_inplace(line);
+  to_lower_inplace(line);
+  handle_command(line);
+  fflush(stdout);
 }
