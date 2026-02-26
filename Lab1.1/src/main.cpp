@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <stdio.h>
 #include "serial_stdio.h"
 #include "utils.h"
 #include "commands.h"
@@ -14,7 +15,7 @@ void setup() {
 
 void loop() {
   char line[64];
-  if (!read_line_stdio_echo(line, sizeof(line))) return;
+  if (scanf(" %63[^\r\n]", line) != 1) return;
   trim_inplace(line);
   to_lower_inplace(line);
   handle_command(line);
