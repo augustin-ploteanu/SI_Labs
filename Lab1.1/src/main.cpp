@@ -10,7 +10,12 @@ void setup() {
   Serial.begin(9600);
   delay(50);
   serial_stdio_setup();
-  print_instructions();
+  printf("System ready.\n");
+  printf("Available commands:\n");
+  printf("  led on  - turn LED ON\n");
+  printf("  led off - turn LED OFF\n");
+  printf("Type a command and press Enter.\n\n");
+  fflush(stdout);
 }
 
 void loop() {

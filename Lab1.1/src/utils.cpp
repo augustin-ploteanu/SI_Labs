@@ -18,12 +18,3 @@ void trim_inplace(char *s) {
 void to_lower_inplace(char *s) {
   for (; *s; s++) *s = (char)tolower((unsigned char)*s);
 }
-
-void print_instructions(void) {
-  printf("System ready.\n");
-  printf("Available commands:\n");
-  printf("  led on  - turn LED ON\n");
-  printf("  led off - turn LED OFF\n");
-  printf("Type a command and press Enter.\n\n");
-  fflush(stdout);
-}

@@ -6,6 +6,5 @@
 
 void trim_inplace(char *s);
 void to_lower_inplace(char *s);
-void print_instructions(void);
 
 #endif
