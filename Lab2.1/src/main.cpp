@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <stdio.h>
 
 #include "button.h"
 #include "led.h"
@@ -8,6 +9,9 @@
 #include "task_detect.h"
 #include "task_report.h"
 #include "task_stats.h"
+#if defined(ARDUINO_ARCH_AVR)
+#include <avr/io.h>
+#endif
 
 namespace {
 
@@ -25,10 +29,24 @@ constexpr uint8_t TASK_DETECT_ID = 0;
 constexpr uint8_t TASK_STATS_ID = 1;
 constexpr uint8_t TASK_REPORT_ID = 2;
 
+#if defined(ARDUINO_ARCH_AVR)
+FILE serialStdout;
+
+int serialPutChar(char c, FILE*) {
+  Serial.write(c);
+  return 0;
+}
+#endif
+
 }
 
 void setup() {
   Serial.begin(115200);
+
+#if defined(ARDUINO_ARCH_AVR)
+  fdev_setup_stream(&serialStdout, serialPutChar, nullptr, _FDEV_SETUP_WRITE);
+  stdout = &serialStdout;
+#endif
 
   buttonBegin(BUTTON_PIN);
   ledBegin(LED_GREEN_PIN);

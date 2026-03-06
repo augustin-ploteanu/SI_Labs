@@ -1,6 +1,7 @@
 #include "task_report.h"
 
 #include <Arduino.h>
+#include <stdio.h>
 
 #include "press_stats.h"
 
@@ -22,16 +23,18 @@ void taskReportRun() {
     return;
   }
 
-  Serial.println(F("--- 10s Report ---"));
-  Serial.print(F("Total presses: "));
-  Serial.println(pressStatsGetTotalCount());
-  Serial.print(F("Short presses (<500ms): "));
-  Serial.println(pressStatsGetShortCount());
-  Serial.print(F("Long presses (>=500ms): "));
-  Serial.println(pressStatsGetLongCount());
-  Serial.print(F("Average duration [ms]: "));
-  Serial.println(pressStatsGetAverageDurationMs(), 2);
-  Serial.println();
+  const float avgMs = pressStatsGetAverageDurationMs();
+  const unsigned long avgHundredths = static_cast<unsigned long>(avgMs * 100.0f + 0.5f);
+  const unsigned long avgWhole = avgHundredths / 100UL;
+  const unsigned long avgFrac = avgHundredths % 100UL;
+
+  printf("--- 10s Report ---\r\n");
+  printf("Total presses: %lu\r\n", static_cast<unsigned long>(pressStatsGetTotalCount()));
+  printf("Short presses (<500ms): %lu\r\n",
+         static_cast<unsigned long>(pressStatsGetShortCount()));
+  printf("Long presses (>=500ms): %lu\r\n",
+         static_cast<unsigned long>(pressStatsGetLongCount()));
+  printf("Average duration [ms]: %lu.%02lu\r\n\r\n", avgWhole, avgFrac);
 
   pressStatsReset();
   nextReportAtMs = nowMs + taskReportIntervalMs;
