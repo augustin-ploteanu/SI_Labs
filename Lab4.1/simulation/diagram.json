@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 259.8, "left": -195.6, "attrs": {} },
+    { "type": "wokwi-relay-module", "id": "relay", "top": 9.8, "left": -86.4, "attrs": {} },
+    { "type": "wokwi-led", "id": "led", "top": 6, "left": 272.6, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-resistor",
+      "id": "res1",
+      "top": 71.15,
+      "left": 259.2,
+      "attrs": { "value": "220" }
+    },
+    { "type": "wokwi-lcd1602", "id": "lcd", "top": 99.43, "left": -22.4, "attrs": {} },
+    { "type": "wokwi-membrane-keypad", "id": "keypad", "top": -88.4, "left": -368.8, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:GND.1", "relay:GND", "black", [ "v-20" ] ],
+    [ "uno:5V", "relay:VCC", "black", [ "v-40" ] ],
+    [ "uno:10", "relay:IN", "black", [ "v-60" ] ],
+    [ "uno:5V", "relay:COM", "black", [ "v-40" ] ],
+    [ "relay:NO", "led:A", "red", [ "v-20" ] ],
+    [ "led:C", "res1:1", "black", [ "v20" ] ],
+    [ "res1:2", "uno:GND.2", "black", [ "v40" ] ],
+    [ "uno:GND.1", "lcd:VSS", "black", [ "v20" ] ],
+    [ "uno:5V", "lcd:VDD", "black", [ "v40" ] ],
+    [ "uno:GND.1", "lcd:RW", "black", [ "v20" ] ],
+    [ "uno:12", "lcd:RS", "black", [ "v60" ] ],
+    [ "uno:11", "lcd:E", "black", [ "v80" ] ],
+    [ "uno:A0", "lcd:D4", "black", [ "v60" ] ],
+    [ "uno:A1", "lcd:D5", "black", [ "v60" ] ],
+    [ "uno:A2", "lcd:D6", "black", [ "v60" ] ],
+    [ "uno:A3", "lcd:D7", "black", [ "v60" ] ],
+    [ "keypad:R1", "uno:9", "green", [ "v0" ] ],
+    [ "keypad:R2", "uno:8", "green", [ "v0" ] ],
+    [ "keypad:R3", "uno:7", "green", [ "v0" ] ],
+    [ "keypad:R4", "uno:6", "green", [ "v0" ] ],
+    [ "keypad:C1", "uno:5", "green", [ "v0" ] ],
+    [ "keypad:C2", "uno:4", "green", [ "v0" ] ],
+    [ "keypad:C3", "uno:3", "green", [ "v0" ] ],
+    [ "keypad:C4", "uno:2", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
