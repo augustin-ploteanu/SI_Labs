@@ -19,7 +19,8 @@ bool controller_update(float measured) {
     return _out;
 }
 
-void  controller_set_setpoint(float sp) { _sp = sp; }
-float controller_get_setpoint()         { return _sp; }
-float controller_get_hysteresis()       { return _hyst; }
-bool  controller_get_output()           { return _out; }
+void  controller_set_setpoint(float sp)    { _sp = sp; }
+void  controller_set_hysteresis(float hyst) { if (hyst >= 0.0f) _hyst = hyst; }
+float controller_get_setpoint()            { return _sp; }
+float controller_get_hysteresis()          { return _hyst; }
+bool  controller_get_output()              { return _out; }

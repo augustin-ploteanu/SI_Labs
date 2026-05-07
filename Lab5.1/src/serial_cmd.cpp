@@ -10,17 +10,31 @@ void serial_cmd_process() {
     while (Serial.available()) {
         char c = (char)Serial.read();
         if (c == '\n' || c == '\r') {
-            if (_cmdLen > 1 && (_cmdBuf[0] == 't' || _cmdBuf[0] == 'T')) {
+            if (_cmdLen > 1) {
                 float val = atof(_cmdBuf + 1);
-                if (val > 0.0f) {
-                    controller_set_setpoint(val);
-                    printf(">>> SP updated: %.1f C  (OFF at %.1f C)\n",
-                           val, val - controller_get_hysteresis());
-                } else {
-                    printf("ERR: use t<value>  e.g. t28.5\n");
+                switch (_cmdBuf[0] | 0x20) {
+                case 't':
+                    if (val > 0.0f) {
+                        controller_set_setpoint(val);
+                        printf(">>> SP=%.1f C  (OFF at %.1f C)\n",
+                               val, val - controller_get_hysteresis());
+                    } else {
+                        printf("ERR: use t<value>  e.g. t28.5\n");
+                    }
+                    break;
+                case 'h':
+                    if (val >= 0.0f) {
+                        controller_set_hysteresis(val);
+                        printf(">>> Hyst=%.2f C  (OFF at %.1f C)\n",
+                               val, controller_get_setpoint() - val);
+                    } else {
+                        printf("ERR: use h<value>  e.g. h0.5\n");
+                    }
+                    break;
+                default:
+                    printf("Unknown cmd. Use t<value>=SP  h<value>=Hyst\n");
+                    break;
                 }
-            } else if (_cmdLen > 0) {
-                printf("Unknown cmd. Use t<value> to set threshold.\n");
             }
             _cmdLen = 0;
         } else if (_cmdLen < (uint8_t)(sizeof(_cmdBuf) - 1)) {
